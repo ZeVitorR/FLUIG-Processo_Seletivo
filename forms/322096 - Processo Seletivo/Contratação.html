@@ -1,0 +1,213 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script> <!--Faz ligação com o JQuery-->
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script><!--Faz ligação com o JQuery-->
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script><!--Faz ligação com o JQuery-->
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script><!--Faz ligação com o Fluig Style-->
+	<script type="text/javascript" src="FLUIGIP.js"></script><!--Faz ligação com o script do fluigy-->
+	<script type="text/javascript" src="contratacao.js"></script><!--Faz ligação com o java script criado para o html-->
+	<script type="text/javascript" src="api.js"></script>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<script type="text/javascript" src="anexos.js" charset="utf-8"></script>
+	<script type="text/javascript" src="api.js" charset="utf-8"></script>
+</head>
+<body>
+	<div class="fluig-style-guide">
+		<form name="form" role="form">
+			
+			<div id="divCenter">
+				<div class="panel panel-default"><!--Div usado para definir o painel do formulario-->
+					<div class="panel-heading"><!--Div para definir o cabeçalho do formulario-->
+						<div id="divCenter2">						
+							<img src="./logo.png" alt="logo da thcm" width="25%"/><!--Colocando o logo da THCM-->
+						</div>
+					</div>
+					<input type="text" id="docEnviado" name="docEnviado" value='não' hidden>
+					<div class="panel-body"><!--Parte referente ao corpo do formulario ou seja onde vai as perguntas-->
+						<fieldset id="inicial">
+							<div class="panel panel-primary">
+								<div class="panel-heading"><!--Div para definir o cabeçalho do formulario-->
+									Informações do Candidato
+								</div>
+								<div class="panel-body">
+									<input type="text" name="textA" id="textA" hidden>
+									<div class="row form-group"><!--Definido a div da linha da pergunda-->
+										<div class="col-md-6"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="nomeCandidato">Nome Completo:</label>
+											<input type="text" id="nomeCandidato" name="nomeCandidato" class="form-control form-control-sm"
+											data-fluig-required="true" data-fluig-write="0" data-fluig-state-valid="0">
+										</div>
+										<div class="col-md-6"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="emailCandidato">E-mail</label>
+											<input type="email" id="emailCandidato" name="emailCandidato" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-state-valid="0">
+										</div>
+									</div>
+									<div class="row form-group"><!--Definido a div da linha da pergunda-->
+										<div class="col-md-6">
+											<label class="control-label" for="areaCandidato">Área de atuação</label>
+											<select name="areaCandidato" id="areaCandidato" class="form-control"
+											data-fluig-write="0" data-fluig-state-valid="0" data-fluig-required="true">
+												<option value="">Selecione a area de atuação</option>
+												<option value="Administração">Administração</option>
+												<option value="Comercial">Comercial</option>												
+												<option value="Ciências Contábeis">Ciências Contábeis</option>												
+												<option value="Arquitetura/Engenharia">Arquitetura/Engenharia</option>												
+												<option value="Direito">Direito</option>
+												<option value="Tecnologia da Informação">Tecnologia da Informação</option>	
+												<option value="OutrasAreas">Outros</option>												
+											</select>
+										</div>
+										<div class="col-md-6"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" >Currículo</label>
+											<div class="componentAnexo">
+												<div class="input-group">
+													<input type="hidden" class="descAnexo" id="fdCurriculoCandidato" name="fdCurriculoCandidato" value="Currículo" />
+													<input type="text" id="fnCurriculoCandidato" name="fnCurriculoCandidato" class="form-control inputAnexo input-sm" placeholder="Selecione um arquivo" readonly />
+												</div>
+												<div class="icones">
+													<button type="button" class="btnUpFile btn btn-success btn-sm" data-acao="upload" onclick="anexo(event)" title="Selecionar">
+														<i class="fluigicon fluigicon-file-upload icon-sm"></i>
+													</button>
+													<button style="display: none;" type="button" id="ViewerFile" class="btnViewerFile btn btn-info btn-sm" data-acao="viewer" onclick="anexo(event)" title="Visualizar" disabled>
+														<i class="fluigicon fluigicon-eye-open icon-sm"></i>
+													</button>
+													<button style="display: none;" type="button" class="btnDownloadFile btn btn-info btn-sm" data-acao="download" onclick="anexo(event)" title="Download" disabled>
+														<i class="fluigicon fluigicon-download icon-sm"></i>
+													</button>
+												</div>
+											</div>
+											<a  id="localSalvo" target="_blank"></a>
+											<!-- <input type="file" id="curriculoCandidato" name="curriculoCandidato" class="form-control form-control-sm"
+											data-fluig-required="true" data-fluig-write="0" data-fluig-state-valid="0"> -->
+										</div>
+									</div>
+									<div class="row form-group"><!--Definido a div da linha da pergunda-->
+										<div class="col-md-3"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="nascimentoCandidato">Nascimento</label>
+											<input type="date" id="nascimentoCandidato" name="nascimentoCandidato" class="form-control form-control-sm"
+												data-fluig-write="0" data-fluig-state-valid="0" onblur="calculaIdade()">
+										</div>
+										<div class="col-md-3"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="idadeCandidato">Idade</label>
+											<input type="number" id="idadeCandidato" name="idadeCandidato" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-required="true" min="17">
+										</div>
+										<div class="col-md-3"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="aplicacaoCandidato">Aplicação da candidatura:</label>
+											<select name="aplicacaoCandidato" id="aplicacaoCandidato" class="form-control"
+											data-fluig-write="0" data-fluig-state-valid="0" data-fluig-required="true">
+												<option value="">Selecione a candidatura</option>
+												<option value="Efetivo">Efetivo</option>
+												<option value="Estagio">Estagio</option>											
+											</select>
+										</div>
+										<div class="col-md-3"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="nivelEduCandidato">Nivel de escolariedade</label>
+											<select name="nivelEduCandidato" id="nivelEduCandidato" class="form-control"
+											data-fluig-write="0" data-fluig-state-valid="0" data-fluig-required="true" onchange="exibeFacu(this)">
+												<option value="">Selecione o nível de escolariedade</option>
+												<option value="superiorIncompleto">Superior incompleto</option>
+												<option value="SuperiorCompleto">Superior completo</option>											
+												<option value="medioCompleto">2° Grau completo</option>											
+												<option value="OutraEscolariedade">Outro</option>											
+											</select>
+										</div>
+									</div>
+									<div class="row form-group" id="faculdadeC"><!--Definido a div da linha da pergunda-->
+										<div class="col-md-6" ><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="faculdadeCandidato">Nome da faculdade:</label>
+											<input type="text" id="faculdadeCandidato" name="faculdadeCandidato" class="form-control form-control-sm"
+												 data-fluig-write="0" data-fluig-state-valid="0">
+										</div>
+										<div class="col-md-3" id="semestre">
+											<label class="control-label" for="semestreCandidato">Semestre atual:</label>
+											<input type="text" id="semestreCandidato" name="semestreCandidato" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-state-valid="0" >
+										</div>
+										<div class="col-md-3" id="conclusao">
+											<label class="control-label" for="conclusaoCandidato">Ano de conclusão:</label>
+											<input type="text" id="conclusaoCandidato" name="conclusaoCandidato" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-state-valid="0" >
+										</div>
+									</div>
+									
+									<div class="row form-group"><!--Definido a div da linha da pergunda-->
+										<div class="col-md-6"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+											<label class="control-label" for="telefoneCandidato">Telefone:</label>
+											<input type="text" id="telefoneCandidato" name="telefoneCandidato" class="form-control form-control-sm"
+												data-fluig-required="true" data-fluig-write="0" data-fluig-state-valid="0">
+										</div>
+										<div class="col-md-6">
+											<label class="control-label" for="telefoneACandidato">Telefone Alternativo:</label>
+											<input type="text" id="telefoneACandidato" name="telefoneACandidato" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-state-valid="0">
+										</div>
+									</div>
+									
+									<div class="panel panel-primary" id="EnderecosCliente">
+										<div class="panel-heading" ><!--Div para definir o cabeçalho do formulario-->
+											Endereço
+										</div>
+										<div class="panel-body" >
+											<div class="row form-group-sm">
+												<div class="col-md-8">
+													<label class="control-label" for="endereco">Endereço</label>
+													<input type="text" id="endereco" name="endereco" class="form-control form-control-sm input-sm" data-fluig-write="0" data-fluig-state-valid="0"
+													><!--Parte responsável por deixar o campo obrigatório-->
+												</div>
+												<div class="col-md-4">
+													<label class="control-label" data-fluig-write="0" data-fluig-state-valid="0" for="Bairro">Bairro</label>
+													<input type="text" id="Bairro" name="Bairro" class="form-control form-control-sm input-sm" data-fluig-write="0" data-fluig-state-valid="0"
+													analytics="true" gooddataid="1">
+												</div>
+											</div>
+											<div class="row form-group-sm">
+												<div class="col-md-2"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+													<label class="control-label" for="CEP">CEP</label>
+													<input type="text" id="CEP" name="CEP" class="form-control form-control-sm input-sm"
+														data-fluig-write="0" data-fluig-state-valid="0" onblur="pesquisacep(this)">
+												</div>
+												<div class="col-md-8"><!--Definindo o tamanho que vai ter o campo podendo ser de 1 a 18-->
+													<label class="control-label" for="cidade">Cidade</label>
+													<input type="text" id="cidade" name="cidade" class="form-control form-control-sm input-sm"
+													data-fluig-write="0" data-fluig-state-valid="0">
+												</div>
+												<div class="col-md-2">
+													<label class="control-label" for="estado">Estado</label>
+													<input type="text" id="estado" name="estado" class="form-control form-control-sm input-sm"
+													data-fluig-write="0" data-fluig-state-valid="0" >
+												</div>
+											</div>
+											
+										</div>
+									</div>
+									<div class="row form-group">
+										<div class="col-md-12">
+											<label class="control-label" for="Observacao">Obs:</label>
+											<textarea type="text" id="Observacao" name="Observacao" class="form-control form-control-sm"
+											data-fluig-write="0" data-fluig-state-valid="0" cols="30" rows="2" maxlength="100"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset id="historico">
+							<div class="panel panel-primary">
+								<div class="panel-heading"><!--Div para definir o cabeçalho do formulario-->
+									Histórico do Processo
+								</div>
+								<div class="panel-body" id="hist">
+								</div>									
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
